@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('do-an-server:server');
+var http = require('http');
+const express = require("express");
+
+const MongoClient = require('mongodb').MongoClient;
+
+// Connection URL
+const url = 'mongodb://localhost:27017';
+
+const dbName = 'database_chat';
+
+const socketIo = require("socket.io");
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '4000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+const io = socketIo(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("New client connected");
+
+  socket.on('joinRoom', (room_name) => {
+    console.log('client join room ' + room_name);
+    socket.join(room_name);
+  })
+
+  socket.on('MessageFromClient', (data) => {
+    //console.log(data);
+
+    // var data_message_save = { 
+    //   "username" : "hungnguyen", 
+    //   "timestamp" : Date.now(), 
+    //   "message" : data, 
+    //   "room" : ""
+    // }
+  
+
+    MongoClient.connect(url, function(err, client) {
+      if(err)
+          console.log(err);
+      const db = client.db(dbName);
+      const collection_chat_message = db.collection('chat_message');
+      collection_chat_message.insertOne(data, () => {
+        
+        if(data.room){
+          console.log('room', data.room);
+          io.in(data.room).emit('MessageFromServer', data);
+        }
+        else{
+          console.log('broadcast');
+          socket.broadcast.emit("MessageFromServer", data);
+          socket.emit("MessageFromServer", data);
+        }
+        
+        
+      });
+
+    });
+    
+  })
+
+  // setInterval(() => {
+  //   socket.emit('MessageFromServer', 'Hello Client');
+  // }, 1000);
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+})
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port, () => {
+  console.log(`server is run on port ${port}`);
+});
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+
+
+
+
+// const app_socket = express();
+
+// var server_socket = http.createServer(app_socket);
+
+// const io = socketIo(server_socket);
+
+// io.on("connection", (socket) => {
+//   console.log("New client connected");
+
+//   socket.on('MessageClient', (data) => {
+//     console.log(data);
+//   })
+
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected");
+//   });
+// })
+
+// server_socket.listen(4001, () => {
+//   console.log(`Listening on port 4001`);
+// });

@@ -1,0 +1,1 @@
+exports default const pass="Nyc2019@"

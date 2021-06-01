@@ -1,0 +1,208 @@
+###
+GET http://localhost:4000/
+
+####
+POST http://localhost:4000/
+Content-Type: application/json
+
+{
+    "bien": "gia tri"
+}
+
+###
+GET http://localhost:4000/users
+
+###
+GET http://localhost:4000/users?s=hung
+
+###
+POST http://localhost:4000/users
+
+###
+PUT http://localhost:4000/users
+
+###
+DELETE http://localhost:4000/users
+Content-Type: application/json
+Authorization: Basic aHVuZ25ndXllbjoxMjM0NTY=
+
+["asdasd","bbbb","ccc"]
+
+
+
+###
+GET http://localhost:4000/user/
+
+###
+#GET http://localhost:4000/user/hungnguyenxuan118@gmail.com
+GET http://localhost:4000/user/5fe9d7998598f8140c7344c0
+
+###
+POST http://localhost:4000/user
+Content-Type: application/json
+Authorization: Basic aHVuZ25ndXllbjoxMjM0NTY=
+
+{
+    "name": "Hùng Nguyễn",
+    "tai_khoan": "hungnguyen",
+    "mat_khau": "123456789",
+    "email": "hungnguyenxuan118@gmail.com"
+}
+
+
+
+###
+POST http://localhost:4000/user/sign-up
+Content-Type: application/json
+
+{
+    "name": "Hùng Nguyễn",
+    "username": "hungnguyen",
+    "password": "123456789",
+    "email": "hungnguyenxuan118@gmail.com"
+}
+
+
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+Authorization: Basic aHVuZ25ndXllbjoxMjM0NTY=
+
+[
+    {
+        "name": "Hùng Nguyễn",
+        "tai_khoan": "hungnguyen",
+        "mat_khau": "123456789",
+        "email": "hungnguyenxuan118@gmail.com"
+    },
+    {
+        "name": "Hùng Nguyễn 1",
+        "tai_khoan": "hungnguyen",
+        "mat_khau": "123456789",
+        "email": "hungnguyenxuan1@gmail.com"
+    },
+    {
+        "name": "Hùng Nguyễn 2",
+        "tai_khoan": "hungnguyen",
+        "mat_khau": "123456789",
+        "email": "hungnguyenxuan2@gmail.com"
+    }
+]
+
+
+###
+PUT http://localhost:4000/user/5fe9d7998598f8140c7344c0
+Content-Type: application/json
+
+{ 
+    "name" : "Hùng Nguyễn", 
+    "tai_khoan" : "hungnguyen", 
+    "mat_khau" : "123456789", 
+    "email" : "hungnguyenxuan1188@gmail.com"
+}
+
+
+###
+DELETE http://localhost:4000/user/600eb6b03d8ce1156c27c805
+Content-Type: application/json
+Authorization: Basic aHVuZ25ndXllbjoxMjM0NTY=
+
+
+
+###
+POST http://localhost:4000/user/log-in
+Content-Type: application/json
+
+{
+    "tai_khoan": "hungnguyen",
+    "mat_khau": "123456789"
+}
+
+
+###
+GET http://localhost:4000/movies
+Content-Type: application/json
+
+
+###
+GET http://localhost:4000/messages
+Content-Type: application/json
+
+###
+GET http://localhost:4000/dashboard/get-last-month
+
+
+###
+GET http://localhost:4000/dashboard/data-last-month
+
+###
+GET http://localhost:4000/dashboard/data-employee
+
+
+###
+GET http://localhost:4000/dashboard/don-hang/2016
+
+###
+GET http://localhost:4000/dashboard/don-hang-so-thang/2016
+
+
+###
+GET http://localhost:4000/products/?limit=4
+
+
+###
+GET http://localhost:4000/product/115
+
+
+###
+POST http://localhost:4000/don-hang/
+Content-Type: application/json
+
+{
+    "ho_ten": "Hùng Nguyễn",
+    "email": "hung@gmail.com",
+    "dien_thoai_nguoi_nhan": "090909090",
+    "dia_chi_nguoi_nhan": "290 Nam Ky khoi Nghia Q3, TPHCM",
+    "chi_tiet_don_hang": [
+        {
+            "ma_hoa_don": 95,
+            "ma_san_pham": 224,
+            "ten_san_pham": "Điện thoại Asus Zenfone 6 A601",
+            "so_luong": 15,
+            "don_gia": 5490000,
+            "thanh_tien": 82350000
+        }
+    ]
+}
+
+
+###
+GET http://localhost:4000/don-hang/abcd_000000000107
+
+###
+GET http://localhost:4000/don-hang/tim-kiem/abcd_00000000010
+
+
+###
+POST http://localhost:4000/user/admin-log-in
+Content-Type: application/json
+
+{
+    "ten_dang_nhap":"hungnguyenxuan118@gmail.com",
+    "mat_khau":"asdasdasdas"
+}
+
+
+###
+POST http://localhost:4000/user/admin-authorized
+Content-Type: application/json
+Authorization: Basic dHVhbkB5YWhvby5jb210dWFuYTBhODA2YTgtZWU4NC00N2RkLTgyOTItYWY3NzE5ZDUwYmNm
+
+{}
+
+
+###
+GET http://localhost:4000/phan-quyen
+
+###
+GET http://localhost:4000/menu-quan-tri
